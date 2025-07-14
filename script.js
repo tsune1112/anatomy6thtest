@@ -13,7 +13,22 @@ document.addEventListener('DOMContentLoaded', function() {
             section: 'スクワット',
             question: '深いスクワット（ディープスクワット）では、股関節の屈曲角度が大きくなるため、特に ( ① ) の活動が相対的に上がる傾向があります。',
             answer: '① 大殿筋',
-            explanation: 'スクワットを深く行うと股関節の屈曲が大きくなり、伸張された大殿筋の活動が高まります。'
+            explanation: 'スクワットを深く行うと股関節の屈曲が大きくなり、伸張された大殿筋 (Gluteus Maximus) の活動が高まります。'
+        },
+        {
+            type: '穴埋め式',
+            section: 'スクワット',
+            question: '大腿四頭筋 (Quadriceps) の停止は膝蓋骨を経由して ( ① ) です。',
+            answer: '① 脛骨粗面',
+            explanation: '大腿四頭筋 (Quadriceps) は膝蓋骨 (Patella) を経由して脛骨粗面 (Tibial Tuberosity) に停止します。'
+        },
+        {
+            type: '選択式',
+            section: 'スクワット',
+            question: '大殿筋 (Gluteus Maximus) の起始として正しいものはどれですか？',
+            options: ['腸骨前下棘', '坐骨結節', '仙骨、腸骨後面、胸腰筋膜', '鎖骨内側半分'],
+            answer: 'c) 仙骨、腸骨後面、胸腰筋膜',
+            explanation: '大殿筋 (Gluteus Maximus) の起始は仙骨 (Sacrum)、腸骨後面 (Posterior Ilium)、胸腰筋膜 (Thoracolumbar Fascia) です。'
         },
         {
             type: '正誤問題',
@@ -42,7 +57,15 @@ document.addEventListener('DOMContentLoaded', function() {
             section: 'ベンチプレス',
             question: 'ベンチプレスにおいて、肩関節の安定性を高め、傷害リスクを低減するためには、肩甲骨を ( ① ) ・ ( ② ) させることが重要です。',
             answer: '① 後退、② 下制',
-            explanation: '肩甲骨を後退・下制させることで、肩関節が安定し、大胸筋の活動を高めることができます。これにより、肩のインピンジメントなどのリスクを軽減します。'
+            explanation: '肩甲骨を後退・下制させることで、肩関節が安定し、大胸筋 (Pectoralis Major) の活動を高めることができます。これにより、肩のインピンジメントなどのリスクを軽減します。'
+        },
+        {
+            type: '選択式',
+            section: 'ベンチプレス',
+            question: '上腕三頭筋 (Triceps Brachii) の長頭の起始はどこですか？',
+            options: ['烏口突起', '関節窩下結節', '上腕骨後面', '尺骨肘頭'],
+            answer: 'b) 関節窩下結節',
+            explanation: '上腕三頭筋 (Triceps Brachii) の長頭の起始は関節窩下結節 (Infraglenoid Tubercle) です。'
         },
         {
             type: '選択式',
@@ -73,6 +96,13 @@ document.addEventListener('DOMContentLoaded', function() {
             question: 'チンニング（懸垂）で、順手（手のひらが前向き）と逆手（手のひらが自分向き）では、主にどちらの筋肉の関与度が変わりますか？それぞれの場合で活動が高まる筋肉を挙げてください。',
             answer: '主に上腕二頭筋と広背筋の関与度合いが変わります。逆手では上腕二頭筋の活動が高まり、順手では広背筋の活動が高まります。',
             explanation: '逆手（手のひらが自分向き）は、上腕二頭筋 (Biceps Brachii) が最も力を発揮しやすい肢位のため、その関与が大きくなります。'
+        },
+        {
+            type: '穴埋め式',
+            section: 'チンニング（懸垂）',
+            question: '広背筋 (Latissimus Dorsi) の停止は ( ① ) です。',
+            answer: '① 上腕骨小結節稜',
+            explanation: '広背筋 (Latissimus Dorsi) の停止は上腕骨小結節稜 (Lesser Tubercle of Humerus) です。'
         },
         {
             type: '穴埋め式',
@@ -116,11 +146,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let currentSection = '';
         selectedQuestions.forEach((q, index) => {
-            if (q.section !== currentSection) {
+            // Check if the section has changed or if it's the first question
+            if (index === 0 || q.section !== selectedQuestions[index - 1].section) {
                 const sectionHeader = document.createElement('h2');
-                sectionHeader.textContent = `第${index + 1}部：${q.section}`;
+                sectionHeader.textContent = q.section;
                 quizContainer.appendChild(sectionHeader);
-                currentSection = q.section;
             }
 
             const questionBlock = document.createElement('div');
