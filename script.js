@@ -128,8 +128,8 @@ document.addEventListener('DOMContentLoaded', function() {
             type: '穴埋め式',
             section: 'スクワット',
             question: '大腿四頭筋 (Quadriceps) のうち、大腿直筋 (Rectus Femoris) の起始は ( ① ) です。',
-            answer: '① 腸骨前下棘',
-            explanation: '大腿四頭筋 (Quadriceps) の大腿直筋 (Rectus Femoris) の起始は腸骨前下棘 (Anterior Inferior Iliac Spine) です。',
+            answer: '① 下前腸骨棘',
+            explanation: '大腿四頭筋 (Quadriceps) の大腿直筋 (Rectus Femoris) の起始は下前腸骨棘 (Anterior Inferior Iliac Spine) です。',
             category: 'origin_insertion'
         },
         {
