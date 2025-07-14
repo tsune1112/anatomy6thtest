@@ -406,118 +406,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const toggleAllAnswersBtn = document.getElementById('toggle-all-answers-btn');
     const answerControlDiv = document.querySelector('.answer-control');
 
-    // New buttons for origin/insertion quiz
-    const originInsertionQuiz10Btn = document.createElement('button');
-    originInsertionQuiz10Btn.id = 'origin-insertion-quiz-10-btn';
-    originInsertionQuiz10Btn.textContent = '起始・停止 ちょい確認（10問）';
-    const originInsertionQuiz15Btn = document.createElement('button');
-    originInsertionQuiz15Btn.id = 'origin-insertion-quiz-15-btn';
-    originInsertionQuiz15Btn.textContent = '起始・停止 少し時間がある時（15問）';
-    const originInsertionQuiz20Btn = document.createElement('button');
-    originInsertionQuiz20Btn.id = 'origin-insertion-quiz-20-btn';
-    originInsertionQuiz20Btn.textContent = '起始・停止 知識確認（20問）';
-
-    const quizModeSelectionDiv = document.querySelector('.quiz-mode-selection');
-    quizModeSelectionDiv.appendChild(originInsertionQuiz10Btn);
-    quizModeSelectionDiv.appendChild(originInsertionQuiz15Btn);
-    quizModeSelectionDiv.appendChild(originInsertionQuiz20Btn);
-
-
-    // Fisher-Yates (Knuth) shuffle algorithm
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
-    }
-
-    function generateQuiz(numQuestions, category = null) {
-        quizContainer.innerHTML = ''; // Clear previous quiz
-        answerControlDiv.style.display = 'block'; // Show toggle all answers button
-
-        let filteredQuizData = quizData;
-        if (category) {
-            filteredQuizData = quizData.filter(q => q.category === category);
-        }
-
-        const shuffledQuizData = shuffleArray([...filteredQuizData]); // Shuffle a copy of the data
-        const selectedQuestions = shuffledQuizData.slice(0, numQuestions);
-
-        let currentSection = '';
-        selectedQuestions.forEach((q, index) => {
-            // Check if the section has changed or if it's the first question
-            // For origin_insertion questions, we might want to group by muscle rather than section
-            // For simplicity, let's keep grouping by section for now, or remove section grouping for origin_insertion
-            // For now, I'll keep the section grouping, but it might not be ideal for random origin/insertion questions.
-            // Let's modify to just use a generic "問題" header for origin_insertion questions.
-            if (category === 'origin_insertion') {
-                // No section header for origin/insertion questions, just a continuous list
-            } else if (index === 0 || q.section !== selectedQuestions[index - 1].section) {
-                const sectionHeader = document.createElement('h2');
-                sectionHeader.textContent = q.section;
-                quizContainer.appendChild(sectionHeader);
-            }
-
-            const questionBlock = document.createElement('div');
-            questionBlock.classList.add('question-block');
-
-            const questionHeader = document.createElement('h3');
-            questionHeader.textContent = `問${index + 1}（${q.type}）`;
-            questionBlock.appendChild(questionHeader);
-
-            const questionText = document.createElement('p');
-            questionText.textContent = q.question;
-            questionBlock.appendChild(questionText);
-
-            if (q.options && q.options.length > 0) {
-                const optionsList = document.createElement('ol');
-                optionsList.setAttribute('type', 'a');
-                q.options.forEach(option => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = option;
-                    optionsList.appendChild(listItem);
-                });
-                questionBlock.appendChild(optionsList);
-            }
-
-            const toggleBtn = document.createElement('button');
-            toggleBtn.classList.add('toggle-answer-btn');
-            toggleBtn.textContent = '解答を表示/非表示';
-            questionBlock.appendChild(toggleBtn);
-
-            const answerBlock = document.createElement('div');
-            answerBlock.classList.add('answer-block', 'hidden');
-
-            const answerP = document.createElement('p');
-            answerP.innerHTML = `<strong>解答：</strong> ${q.answer}`;
-            answerBlock.appendChild(answerP);
-
-            const explanationP = document.createElement('p');
-            explanationP.innerHTML = `<strong>解説：</strong> ${q.explanation}`;
-            answerBlock.appendChild(explanationP);
-
-            questionBlock.appendChild(answerBlock);
-            quizContainer.appendChild(questionBlock);
-        });
-
-        // Add event listeners to newly created toggle buttons
-        document.querySelectorAll('.toggle-answer-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                this.nextElementSibling.classList.toggle('hidden');
-            });
-        });
-    }
-
     // Event listeners for quiz mode selection buttons
     quiz10Btn.addEventListener('click', () => generateQuiz(10));
     quiz20Btn.addEventListener('click', () => generateQuiz(20));
     quizAllBtn.addEventListener('click', () => generateQuiz(quizData.length));
 
     // Event listeners for new origin/insertion quiz buttons
-    originInsertionQuiz10Btn.addEventListener('click', () => generateQuiz(10, 'origin_insertion'));
-    originInsertionQuiz15Btn.addEventListener('click', () => generateQuiz(15, 'origin_insertion'));
-    originInsertionQuiz20Btn.addEventListener('click', () => generateQuiz(20, 'origin_insertion'));
+    document.getElementById('origin-insertion-quiz-10-btn').addEventListener('click', () => generateQuiz(10, 'origin_insertion'));
+    document.getElementById('origin-insertion-quiz-15-btn').addEventListener('click', () => generateQuiz(15, 'origin_insertion'));
+    document.getElementById('origin-insertion-quiz-20-btn').addEventListener('click', () => generateQuiz(20, 'origin_insertion'));
 
 
     // Event listener for toggle all answers button
