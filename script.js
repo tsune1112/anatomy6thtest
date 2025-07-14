@@ -400,24 +400,104 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
 
     const quizContainer = document.getElementById('quiz-container');
-    const quiz10Btn = document.getElementById('quiz-10-btn');
-    const quiz20Btn = document.getElementById('quiz-20-btn');
-    const quizAllBtn = document.getElementById('quiz-all-btn');
     const toggleAllAnswersBtn = document.getElementById('toggle-all-answers-btn');
     const answerControlDiv = document.querySelector('.answer-control');
 
-    // Event listeners for quiz mode selection buttons
-    quiz10Btn.addEventListener('click', () => generateQuiz(10));
-    quiz20Btn.addEventListener('click', () => generateQuiz(20));
-    quizAllBtn.addEventListener('click', () => generateQuiz(quizData.length));
+    // Helper function to shuffle an array
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
 
-    // Event listeners for new origin/insertion quiz buttons
+    // Function to generate and display the quiz
+    function generateQuiz(numQuestions, category = null) {
+        quizContainer.innerHTML = ''; // Clear previous quiz content
+        answerControlDiv.style.display = 'block'; // Show the "Toggle All Answers" button
+
+        let questionsToDisplay = quizData;
+
+        // Filter questions by category if specified
+        if (category) {
+            questionsToDisplay = quizData.filter(q => q.category === category);
+        }
+
+        // Shuffle and select the specified number of questions
+        const shuffledQuestions = shuffleArray([...questionsToDisplay]);
+        const selectedQuestions = shuffledQuestions.slice(0, numQuestions);
+
+        let currentSection = ''; // To group questions by section for general quizzes
+
+        selectedQuestions.forEach((q, index) => {
+            // Add section header for general quizzes, but not for origin/insertion specific quizzes
+            if (!category && (index === 0 || q.section !== selectedQuestions[index - 1].section)) {
+                const sectionHeader = document.createElement('h2');
+                sectionHeader.textContent = q.section;
+                quizContainer.appendChild(sectionHeader);
+            }
+
+            const questionBlock = document.createElement('div');
+            questionBlock.classList.add('question-block');
+
+            const questionHeader = document.createElement('h3');
+            questionHeader.textContent = `問${index + 1}（${q.type}）`;
+            questionBlock.appendChild(questionHeader);
+
+            const questionText = document.createElement('p');
+            questionText.textContent = q.question;
+            questionBlock.appendChild(questionText);
+
+            // Add options for multiple-choice questions
+            if (q.options && q.options.length > 0) {
+                const optionsList = document.createElement('ol');
+                optionsList.setAttribute('type', 'a');
+                q.options.forEach(option => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = option;
+                    optionsList.appendChild(listItem);
+                });
+                questionBlock.appendChild(optionsList);
+            }
+
+            const toggleBtn = document.createElement('button');
+            toggleBtn.classList.add('toggle-answer-btn');
+            toggleBtn.textContent = '解答を表示/非表示';
+            questionBlock.appendChild(toggleBtn);
+
+            const answerBlock = document.createElement('div');
+            answerBlock.classList.add('answer-block', 'hidden');
+
+            const answerP = document.createElement('p');
+            answerP.innerHTML = `<strong>解答：</strong> ${q.answer}`;
+            answerBlock.appendChild(answerP);
+
+            const explanationP = document.createElement('p');
+            explanationP.innerHTML = `<strong>解説：</strong> ${q.explanation}`;
+            answerBlock.appendChild(explanationP);
+
+            questionBlock.appendChild(answerBlock);
+            quizContainer.appendChild(questionBlock);
+        });
+
+        // Attach event listeners to all "解答を表示/非表示" buttons
+        document.querySelectorAll('.toggle-answer-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                this.nextElementSibling.classList.toggle('hidden');
+            });
+        });
+    }
+
+    // Attach event listeners to quiz mode selection buttons
+    document.getElementById('quiz-10-btn').addEventListener('click', () => generateQuiz(10));
+    document.getElementById('quiz-20-btn').addEventListener('click', () => generateQuiz(20));
+    document.getElementById('quiz-all-btn').addEventListener('click', () => generateQuiz(quizData.length));
     document.getElementById('origin-insertion-quiz-10-btn').addEventListener('click', () => generateQuiz(10, 'origin_insertion'));
     document.getElementById('origin-insertion-quiz-15-btn').addEventListener('click', () => generateQuiz(15, 'origin_insertion'));
     document.getElementById('origin-insertion-quiz-20-btn').addEventListener('click', () => generateQuiz(20, 'origin_insertion'));
 
-
-    // Event listener for toggle all answers button
+    // Attach event listener to the "Toggle All Answers" button
     toggleAllAnswersBtn.addEventListener('click', function() {
         const allAnswerBlocks = document.querySelectorAll('.answer-block');
         const allHidden = Array.from(allAnswerBlocks).every(block => block.classList.contains('hidden'));
