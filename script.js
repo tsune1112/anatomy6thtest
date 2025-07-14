@@ -33,8 +33,8 @@ document.addEventListener('DOMContentLoaded', function() {
             type: '選択式',
             section: 'ベンチプレス',
             question: 'ベンチプレスでグリップ幅を広くした場合、特に活動が増加するのはどの筋肉のどの部分ですか？',
-            options: ['大胸筋の内側部', '大胸筋の外側部', '三角筋の前部', '上腕三頭筋'],
-            answer: 'b) 大胸筋の外側部',
+            options: ['大胸筋の鎖骨部', '大胸筋の胸骨部', '三角筋の前部', '上腕三頭筋'],
+            answer: 'b) 大胸筋の胸骨部',
             explanation: 'グリップ幅を広くすると大胸筋 (Pectoralis Major) 胸骨部の活動が増加し、狭くすると三角筋前部 (Anterior Deltoid) と大胸筋鎖骨部 (Pectoralis Major Clavicular Head) の活動が増加します。これは、筋線維の走行方向と力の発揮方向の関係によるものです。目的に応じてグリップ幅を調整することで、ターゲットとする筋肉の活動を最適化できます。'
         },
         {
